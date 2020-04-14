@@ -73,5 +73,33 @@ namespace LiveCharts.Wpf
 
             if (chart.VisualElements != null) chart.VisualElements.Chart = chart.Model;
         }
+
+        /// <summary>
+        /// Fix the tooltips offset
+        /// </summary>
+        /// <param name="senderPoint"></param>
+        /// <returns></returns>
+        protected internal override Point GetTooltipPosition(ChartPoint senderPoint)
+        {
+            var xt = senderPoint.ChartLocation.X;
+            var yt = senderPoint.ChartLocation.Y;
+            if (DataTooltip.ActualWidth < 0.1)
+            {
+                xt = xt + DataTooltip.MinWidth / 2;
+            }
+            else
+            {
+                xt = xt + DataTooltip.ActualWidth / 2;
+            }
+            if (DataTooltip.ActualHeight < 0.1)
+            {
+                yt = yt - DataTooltip.MinHeight - 10;
+            }
+            else
+            {
+                yt = yt - DataTooltip.ActualHeight - 10;
+            }
+            return new Point(xt, yt);
+        }
     }
 }
